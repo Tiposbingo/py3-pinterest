@@ -205,10 +205,12 @@ class Pinterest:
                 EC.element_to_be_clickable((By.ID, "email"))
             )
 
-            driver.find_element_by_id("email").send_keys(self.email)
-            driver.find_element_by_id("password").send_keys(self.password)
+            driver.find_element("xpath","//*[@id='email']").send_keys(self.email)
+            driver.find_element("xpath","//*[@id='password']").send_keys(self.password)
 
-            logins = driver.find_elements_by_xpath("//*[contains(text(), 'Log in')]")
+            logins = driver.find_element("xpath","//*[@id='mweb-unauth-container]/div/div[3]/div/div/div[3]/form/div[7]/button")
+
+            logins.click()
 
             for login in logins:
                 login.click()

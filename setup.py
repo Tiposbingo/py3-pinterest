@@ -11,10 +11,10 @@ from shutil import rmtree
 
 from setuptools import setup, Command
 
-NAME = 'py3-pinterest'
-PACKAGE = 'py3pin'
+NAME = 'py3-pinterestT'
+PACKAGE = 'py3pinT'
 DESCRIPTION = 'Unofficial pinterest api implemented in python 3'
-URL = 'https://github.com/bstoilov/py3-pinterest'
+URL = 'https://github.com/Tiposbingo/py3-pinterestT'
 EMAIL = 'boriostoilov@gmail.com'
 AUTHOR = 'Borislav Stoilov'
 REQUIRES_PYTHON = '>=3.5.0'

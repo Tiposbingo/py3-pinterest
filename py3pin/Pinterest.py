@@ -12,13 +12,10 @@ from requests.structures import CaseInsensitiveDict
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from webdriver_manager.chrome import ChromeDriverManager
-from selenium.webdriver.chrome.service import Service as ChromeService
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.proxy import Proxy, ProxyType
-from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
-
 
 AGENT_STRING = (
     "Mozilla/5.0 (Windows NT 6.1; Win64; x64) "
@@ -185,7 +182,7 @@ class Pinterest:
         Ideally you need to call this method 3-4 times a month at most.
         :return python dict object describing the pinterest response
         """
-        chrome_options = webdriver.ChromeOptions()
+        chrome_options = Options()
         chrome_options.add_argument("--lang=%s" % lang)
         if headless:
             chrome_options.add_argument("--headless")
@@ -197,8 +194,10 @@ class Pinterest:
             http_proxy.socks_proxy = proxy
             http_proxy.ssl_proxy = proxy
             http_proxy.add_to_capabilities(chrome_options)
-        driver = webdriver.Remote("http://127.0.0.1:4444/wd/hub", DesiredCapabilities.CHROME)
-        
+
+        driver = webdriver.Chrome(
+            ChromeDriverManager().install(), options=chrome_options
+        )
         driver.get("https://pinterest.com/login")
 
         try:
@@ -212,9 +211,6 @@ class Pinterest:
             logins = driver.find_element("xpath","//*[@id='mweb-unauth-container]/div/div[3]/div/div/div[3]/form/div[7]/button")
 
             logins.click()
-
-            for login in logins:
-                login.click()
 
             WebDriverWait(driver, wait_time).until(
                 EC.invisibility_of_element((By.ID, "email"))
@@ -375,7 +371,7 @@ class Pinterest:
         response = self.get(url=url).json()
         bookmark = response["resource"]["options"]["bookmarks"][0]
         self.bookmark_manager.add_bookmark(
-            primary="pins", secondary=username, bookmark=bookmark
+            primary="board_feed", secondary=username, bookmark=bookmark
         )
 
         return response["resource_response"]["data"]

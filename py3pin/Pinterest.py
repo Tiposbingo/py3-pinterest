@@ -17,6 +17,10 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.proxy import Proxy, ProxyType
 
+
+from selenium.webdriver.chrome.service import Service as ChromeService
+
+
 AGENT_STRING = (
     "Mozilla/5.0 (Windows NT 6.1; Win64; x64) "
     "AppleWebKit/537.36 (KHTML, like Gecko) Chrome/61.0.3163.100 Safari/537.36"
@@ -182,6 +186,7 @@ class Pinterest:
         Ideally you need to call this method 3-4 times a month at most.
         :return python dict object describing the pinterest response
         """
+
         chrome_options = Options()
         chrome_options.add_argument("--lang=%s" % lang)
         if headless:
@@ -198,6 +203,10 @@ class Pinterest:
         driver = webdriver.Chrome(
             ChromeDriverManager().install(), options=chrome_options
         )
+        service = ChromeService(executable_path=ChromeDriverManager().install())
+        driver = webdriver.Chrome(service=service)
+
+      
         driver.get("https://pinterest.com/login")
 
         try:

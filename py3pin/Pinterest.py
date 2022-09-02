@@ -186,8 +186,7 @@ class Pinterest:
         Ideally you need to call this method 3-4 times a month at most.
         :return python dict object describing the pinterest response
         """
-
-        chrome_options = Options()
+        chrome_options = webdriver.ChromeOptions()
         chrome_options.add_argument("--lang=%s" % lang)
         if headless:
             chrome_options.add_argument("--headless")
@@ -200,8 +199,7 @@ class Pinterest:
             http_proxy.ssl_proxy = proxy
             http_proxy.add_to_capabilities(chrome_options)
 
-        service = ChromeService(executable_path=ChromeDriverManager().install())
-        driver = webdriver.Chrome(service=service)
+        driver = webdriver.Chrome(ChromeDriverManager().install(), options=chrome_options)
       
         driver.get("https://pinterest.com/login")
 

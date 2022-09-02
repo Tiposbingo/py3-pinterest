@@ -197,10 +197,8 @@ class Pinterest:
             http_proxy.socks_proxy = proxy
             http_proxy.ssl_proxy = proxy
             http_proxy.add_to_capabilities(chrome_options)
-
-        driver = webdriver.Chrome(
-            ChromeDriverManager().install(), options=chrome_options
-        )
+        driver = webdriver.Remote("http://127.0.0.1:4444/wd/hub", DesiredCapabilities.CHROME)
+        
         driver.get("https://pinterest.com/login")
 
         try:

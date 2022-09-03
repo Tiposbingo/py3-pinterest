@@ -199,7 +199,7 @@ class Pinterest:
             http_proxy.ssl_proxy = proxy
             http_proxy.add_to_capabilities(chrome_options)
             
-        service = Service(executable_path="/usr/local/bin/chromedriver")
+        driver = webdriver.Chrome('/usr/local/bin/chromedriver')
         driver = webdriver.Chrome(ChromeDriverManager().install(), options=chrome_options)
       
         driver.get("https://pinterest.com/login")

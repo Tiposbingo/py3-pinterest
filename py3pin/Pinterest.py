@@ -11,13 +11,11 @@ from py3pin.RequestBuilder import RequestBuilder
 from requests.structures import CaseInsensitiveDict
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
+from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.proxy import Proxy, ProxyType
-
-from selenium.webdriver.chrome.service import Service as ChromeService
-from webdriver_manager.chrome import ChromeDriverManager
 
 AGENT_STRING = (
     "Mozilla/5.0 (Windows NT 6.1; Win64; x64) "
@@ -184,14 +182,10 @@ class Pinterest:
         Ideally you need to call this method 3-4 times a month at most.
         :return python dict object describing the pinterest response
         """
-        options = webdriver.ChromeOptions()
-        options.add_argument("--lang=%s" % lang)
-        options.add_experimental_option("excludeSwitches", ["enable-automation"])
-        options.add_experimental_option("useAutomationExtension", False)
-        service = ChromeService(executable_path='/root/.wdm/drivers/chromedriver/linux64/105.0.5195/chromedriver')
-        driver = webdriver.Chrome(service=service, options=options)
+        chrome_options = Options()
+        chrome_options.add_argument("--lang=%s" % lang)
         if headless:
-            options.add_argument("--headless")
+            chrome_options.add_argument("--headless")
 
         if proxy is not None:
             http_proxy = Proxy()
@@ -200,10 +194,8 @@ class Pinterest:
             http_proxy.socks_proxy = proxy
             http_proxy.ssl_proxy = proxy
             http_proxy.add_to_capabilities(chrome_options)
-        
-        #service = Service(executable_path='/usr/local/bin/chromedriver')
-        #driver = webdriver.Chrome(service=service, options=chrome_options)
-        #driver = webdriver.Chrome(ChromeDriverManager().install(), options=options)
+
+        driver = webdriver.Chrome(ChromeDriverManager().install(), options=chrome_options)
       
         driver.get("https://pinterest.com/login")
 

@@ -16,6 +16,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.proxy import Proxy, ProxyType
 
+from selenium.webdriver.chrome.service import Service as ChromeService
 from webdriver_manager.chrome import ChromeDriverManager
 
 AGENT_STRING = (
@@ -183,10 +184,14 @@ class Pinterest:
         Ideally you need to call this method 3-4 times a month at most.
         :return python dict object describing the pinterest response
         """
-        chrome_options = webdriver.ChromeOptions()
-        chrome_options.add_argument("--lang=%s" % lang)
+        options = webdriver.ChromeOptions()
+        options.add_argument("--lang=%s" % lang)
+        options.add_experimental_option("excludeSwitches", ["enable-automation"])
+        options.add_experimental_option("useAutomationExtension", False)
+        service = ChromeService(executable_path='/root/.wdm/drivers/chromedriver')
+        driver = webdriver.Chrome(service=service, options=options)
         if headless:
-            chrome_options.add_argument("--headless")
+            options.add_argument("--headless")
 
         if proxy is not None:
             http_proxy = Proxy()
@@ -198,7 +203,7 @@ class Pinterest:
         
         #service = Service(executable_path='/usr/local/bin/chromedriver')
         #driver = webdriver.Chrome(service=service, options=chrome_options)
-        driver = webdriver.Chrome(ChromeDriverManager().install(), options=chrome_options)
+        #driver = webdriver.Chrome(ChromeDriverManager().install(), options=options)
       
         driver.get("https://pinterest.com/login")
 

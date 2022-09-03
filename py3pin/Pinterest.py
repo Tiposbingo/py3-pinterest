@@ -11,15 +11,12 @@ from py3pin.RequestBuilder import RequestBuilder
 from requests.structures import CaseInsensitiveDict
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
-from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.proxy import Proxy, ProxyType
 
-
-from selenium.webdriver.chrome.service import Service as ChromeService
-
+from selenium.webdriver.chrome.service import Service
 
 AGENT_STRING = (
     "Mozilla/5.0 (Windows NT 6.1; Win64; x64) "
@@ -199,7 +196,7 @@ class Pinterest:
             http_proxy.ssl_proxy = proxy
             http_proxy.add_to_capabilities(chrome_options)
         
-        service = Service('/usr/local/bin/chromedriver')
+        service = Service(executable_path='/usr/local/bin/chromedriver')
         driver = webdriver.Chrome(service=service, options=chrome_options)
         #driver = webdriver.Chrome(ChromeDriverManager().install(), options=chrome_options)
       

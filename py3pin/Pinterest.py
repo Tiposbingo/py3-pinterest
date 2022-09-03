@@ -188,7 +188,7 @@ class Pinterest:
         options.add_argument("--lang=%s" % lang)
         options.add_experimental_option("excludeSwitches", ["enable-automation"])
         options.add_experimental_option("useAutomationExtension", False)
-        service = ChromeService(executable_path='/root/.wdm/drivers/chromedriver')
+        service = ChromeService(executable_path='/root/.wdm/drivers/chromedriver/linux64/105.0.5195/chromedriver')
         driver = webdriver.Chrome(service=service, options=options)
         if headless:
             options.add_argument("--headless")
